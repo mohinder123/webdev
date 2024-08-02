@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Dreams</title>
+</head>
+<body>
+    <h1> Bucket List </h1>
+    {% for dream in dreams %}
+        <ul>
+            <li>{{ dream }}</li>
+        </ul>
+    {% endfor %}
+    <a href="{% url 'dreams:add' %}">New Dream</a>
+</body>
+</html>

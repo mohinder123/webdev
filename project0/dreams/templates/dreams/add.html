@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        #text{
+        
+            text-align: center;
+            margin-top: 80px;
+            font-family: sans-serif;
+            font-size: 100px;
+            color: aliceblue;
+            
+        }
+        form{
+            margin-left: 565px;
+            margin-top: 200px;
+            tab-size: 60px;
+        }
+        #box{ 
+            width: 250px;
+            height: 25px;
+        }
+        #foo{
+            height: 29px;
+        }
+        a{
+           margin-left: 20px;
+           color: aliceblue;
+        }
+         
+        
+    </style>
+    <title>New Dream</title>
+</head>
+<body style="background-color: rgb(60,60,60);">
+    <a href="{% url 'dreams:index' %}">View Bucket List</a>
+
+
+    <div id="text"> Tu Kya Chahta Hai</div>
+
+    <form action="{% url 'dreams:add' %}" method="post">
+        {% csrf_token %}
+         {{ form }}
+       <!---<input id="box" type="text" placeholder="Write your dreams here">---> 
+        <input id="foo" type="submit" value="lessgooo" >
+    </form>
+    
+   
+</body>
+</html>
