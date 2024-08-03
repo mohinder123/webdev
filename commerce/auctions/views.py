@@ -4,7 +4,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
-from .models import User, Category, Listing, Bid
+from .models import User, Category, Listing, Bid, Balance
+import random
 
 
 def index(request):
@@ -171,14 +172,85 @@ def removeWatchlist(request, item_id):
 def removeItem(request, item_id):
     item = Listing.objects.get(pk = item_id)
     currentuser = request.user
+     
+    
+    
+    
     if(item.isactive == True):
+        
         item.isactive = False
+        highBidUser = item.price.user
+        
+        for all in Balance.objects.all():
+            if all.user == highBidUser:
+                
+                all.balance = all.balance - item.price.bid
+                all.save()
+            
+            if all.user == item.owner:
+                all.balance = all.balance + item.price.bid  
+                all.save()  
+            
+
         
     else:
         item.isactive = True
         
     item.save()
     return HttpResponseRedirect(reverse("item", args=[item.id]))
+    
+    
+    
+    
+def balance(request):
+    currentuser = request.user
+    listings = Listing.objects.all()
+    
+    
+    
+    #for listing in listings:
+        #if not listing.isactive:
+           # if currentuser == listing.price.user:
+              #  temp = currentuser
+    
+    
+    
+     
+    
+    
+    
+    for all in Balance.objects.all():
+            if all.user == currentuser:
+                currentbalance = all
+                
+                
+      
+    if not currentbalance:
+        
+        currentbalance = Balance()
+        currentbalance.user = currentuser
+        random.seed(currentuser.id)
+        currentbalance.balance = random.randrange(200,700)
+        currentbalance.save()
+        
+    
+                
+        
+   
+    
+                
+     
+    
+    return render(request, "auctions/balance.html", {
+        "currentbalance": currentbalance,
+        "listings": listings,
+        #"temp": temp
+        
+    })
+    
+    
+    
+    
     
         
         

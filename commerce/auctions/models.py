@@ -24,6 +24,17 @@ class Bid(models.Model):
     def __str__(self):
         return f"{self.bid}"
     
+ 
+ 
+class Balance(models.Model):
+    
+    balance = models.FloatField(default=0)
+    user = models.OneToOneField(User,on_delete= models.CASCADE, blank=True, null=True, related_name="balance")
+    
+    def __str__(self):
+        return f"{self.balance}"   
+
+    
      
     
 
