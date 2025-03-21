@@ -1,0 +1,107 @@
+{% extends "cerhaApp/layout.html" %}
+
+{% block body %}
+
+    
+
+    {% if message %}
+        <div>{{ message }}</div>
+    {% endif %}
+
+    <section class="">
+  
+        <div class="px-4 py-5 px-md-5 text-center text-lg-start" style="background-color: hsl(228, 10%, 30%)">
+          <div class="container">
+            <div class="row gx-lg-5 align-items-center">
+              <div class="col-lg-6 mb-5 mb-lg-0">
+                <h1 class="my-5 display-3 fw-bold ls-tight" style="color: aliceblue;">
+                  The best app <br />
+                  <span class="text-primary">for easy transportation</span>
+                </h1>
+                <p style="color: aliceblue;">
+                    Welcome to CERHA, your hassle-free campus transportation solution! Track the location of nearby e-rickshaws in real-time and book a ride with just a tap. Whether you're heading to class, the library, or hsotel, we've got you covered. Enjoy a smooth, eco-friendly, and convenient way to get around campus-no more waiting or uncertainty. Safe rides, right at your fingertips!
+                </p>
+              </div>
+      
+              <div class="col-lg-6 mb-5 mb-lg-0">
+                <div class="card" style="background-color: rgb(54, 57, 59)">
+                  <div class="card-body py-5 px-md-5">
+                    <form action="{% url 'register' %}" method="post" >
+    
+    
+                        {% csrf_token %}
+                       
+      
+                    
+                      <div data-mdb-input-init class="form-outline mb-4">
+                        
+                        <input type="text" id="username" class="form-control" name="username" placeholder="Username"/>
+                        
+                      </div>
+
+
+                      <div data-mdb-input-init class="form-outline mb-4">
+                         
+                        <input type="email" id="email" class="form-control" name="email" placeholder="Email"/>
+                        
+                      </div>
+      
+                   
+                      <div data-mdb-input-init class="form-outline mb-4">
+                         
+                        <input type="password" id="password" class="form-control" name="password" placeholder="Password"/>
+                        
+                      </div>
+
+
+
+
+                      <div data-mdb-input-init class="form-outline mb-4">
+                      
+                        <input type="password" id="confirmation" class="form-control" name="confirmation" placeholder="Confirm Password"/>
+                        
+                      </div>
+
+                       
+
+                      <div data-mdb-input-init class="form-outline mb-4"> 
+                        
+                        <select class="form-control" id="selection" name="selection">
+                          <option>Driver</option>
+                          <option>Student</option>
+                          
+                        </select>
+                      </div>
+
+                      <div data-mdb-input-init class="form-outline mb-4">
+                        <label for="security_answer" class="form-label" style="color: aliceblue;">Security Question: What is your Mother's Full Name?</label>
+                        <input type="text" id="security_answer" class="form-control" name="security_answer" placeholder="Your Answer" required />
+                      </div>
+                      <br>
+      
+                       
+      
+               
+                      <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-3">
+                        Register
+                      </button>
+                      <div style="color: aliceblue;">Already have an account? <a href="{% url 'login' %}">Log In here.</a></div>
+
+      
+                    
+                      
+      
+                        
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+         
+      </section>
+    
+{% endblock %}

@@ -1,0 +1,106 @@
+{% extends "cerhaApp/layout.html" %}
+
+{% block body %}
+
+    <br>
+
+    {% if message %}
+        <div>{{ message }}</div>
+    {% endif %}
+    {% if currentuser.isDriver %}
+
+    {% for all in requests %}
+    {% if d == all.driver %}
+        <div class="card" id="requestCard{{ all.id }}" style="background-color: hsl(228, 10%, 30%)">
+            <div class="card-header">
+                <h3 style="color: aliceblue;">Pick up at {{all.student.location}}</h3>
+            </div>
+            <div class="card-body">
+                <blockquote class="blockquote mb-0">
+                    <p id="arrivalText{{ all.id }}" style="color: aliceblue;">You should arrive in <span id="timeTaken{{ all.id }}" class="text-warning">--</span> minutes</p>
+                    <a href="{% url 'delete' all.id %}" class="btn btn-danger">End Ride</a>
+                    <footer class="blockquote-footer" style="color: aliceblue;">Requested at <cite title="Source Title">{{ all.time }}</cite></footer>
+                </blockquote>
+            </div>
+        </div>
+        <br>
+
+        <script>
+            (function() {
+                const totalTime = {{ all.time_taken }};
+                const requestId = '{{ all.id }}';
+
+                 
+                const isArrived = localStorage.getItem('isArrived' + requestId);
+
+                
+                if (isArrived === 'true') {
+                    document.getElementById('arrivalText' + requestId).innerHTML = "You should have Arrived";
+                } else {
+                    
+                    let storedRequestTime = localStorage.getItem('requestTime' + requestId);
+
+                    if (!storedRequestTime) {
+                        storedRequestTime = new Date().getTime(); 
+                        localStorage.setItem('requestTime' + requestId, storedRequestTime);
+                    } else {
+                        storedRequestTime = parseInt(storedRequestTime);
+                    }
+
+                    function getRemainingTime() {
+                        const now = new Date().getTime();
+                        const elapsed = (now - storedRequestTime) / (1000 * 60); 
+                        return Math.max(totalTime - elapsed, 0); 
+                    }
+
+                    function updateTime() {
+                        const timeRemaining = getRemainingTime();
+
+                        if (timeRemaining > 0) {
+                            document.getElementById('timeTaken' + requestId).innerText = timeRemaining.toFixed(1);
+                        } else {
+                            document.getElementById('arrivalText' + requestId).innerHTML = "You should have Arrived";
+                            localStorage.setItem('isArrived' + requestId, 'true');  
+                            clearInterval(timerInterval);  
+                        }
+                    }
+
+                    const timerInterval = setInterval(updateTime, 6000);
+                    updateTime();
+                }
+
+                
+                window.addEventListener('load', function() {
+                    const isArrived = localStorage.getItem('isArrived' + requestId);
+                    if (isArrived === 'true') {
+                         
+                        fetch("{% url 'delete' all.id %}", {
+                            method: "POST",
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRFToken': '{{ csrf_token }}'
+                            },
+                            body: JSON.stringify({ id: requestId })
+                        }).then(response => {
+                            if (response.ok) {
+                                
+                                document.getElementById('requestCard' + requestId).remove();
+                                 
+                                localStorage.removeItem('requestTime' + requestId);
+                                localStorage.removeItem('isArrived' + requestId);
+                            }
+                        }).catch(error => {
+                            console.error("Error deleting the request:", error);
+                        });
+                    }
+                });
+            })();
+        </script>
+    {% endif %}
+{% endfor %}
+
+{% endif %}
+
+
+
+{% endblock %}

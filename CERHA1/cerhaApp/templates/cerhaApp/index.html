@@ -1,0 +1,72 @@
+{% extends "cerhaApp/layout.html" %}
+ 
+
+
+{% block body %}
+
+    <div style="background-color: hsl(228, 10%, 30%)">
+ 
+
+       
+
+
+
+
+        {% if user.is_authenticated %}
+
+
+
+        <div class="row mx-3" style = "padding: 60px; padding-left: 90px">
+            
+            <a href="{% url 'driver' %}" style="text-decoration-color: black;"> 
+                
+                <div id="card1" class="card mx-3" style="background-color: rgb(207, 221, 232);width: 600px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);" >
+                    
+                    <img class="card-img-top" style="height: 350px" src="https://p.turbosquid.com/ts-thumb/1H/wkTQa1/lX1OSDuv/2/jpg/1588964606/1920x1080/fit_q87/6af67ed1d84434a3241b776fd4c004fd97c97e07/2.jpg" alt="Card image cap">
+                    <div class="card-body">
+                        <h2 class="card-title" style="color: black;">Driver</h2>
+                        
+                    </div>
+                </div>
+
+            </a>
+
+            
+
+
+
+            <a href="{% url 'student' %}" style="text-decoration-color: black;"> 
+                
+                <div id="card1" class="card mx-3" style="background-color: rgb(207, 221, 232);width: 600px; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);">
+                    
+                    <img class="card-img-top" style="height: 350px" src="https://images.hdqwalls.com/download/student-life-minimalism-3840x2160.jpg" alt="Card image cap">
+                    <div class="card-body">
+                        <h2 class="card-title" style="color: black;">Student</h2>
+                        
+                    </div>
+                </div>
+
+            </a>
+            
+
+        </div>
+
+
+
+    </div>    
+            
+            
+         
+                    
+            
+    
+    
+    
+     
+
+    {% endif %}
+    
+
+    
+
+{% endblock %}

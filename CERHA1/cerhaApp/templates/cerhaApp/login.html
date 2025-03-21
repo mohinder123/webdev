@@ -1,0 +1,80 @@
+{% extends "cerhaApp/layout.html" %}
+
+{% block body %}
+
+     
+    {% if message %}
+        <div style="color: aliceblue;">{{ message }}</div>
+    {% endif %}
+
+    
+<section class="">
+  
+    <div class="px-4 py-5 px-md-5 text-center text-lg-start" style="background-color: hsl(228, 10%, 30%)">
+      <div class="container">
+        <div class="row gx-lg-5 align-items-center">
+          <div class="col-lg-6 mb-5 mb-lg-0">
+            <h1 class="my-5 display-3 fw-bold ls-tight" style="color: aliceblue;">
+                Welcome Back <br />
+              <span class="text-primary">Ready for Your Next Ride?</span>
+            </h1>
+            <p style="color: aliceblue;">
+                It's great to have you back on CERHA! Your next convenient, eco-friendly ride is just a tap away. Whether you're heading to class or grabbing a quick coffee, we’re here to get you there smoothly. Hop in and let us take care of the rest—because getting around campus should always be this easy!
+            </p>
+          </div>
+  
+          <div class="col-lg-6 mb-5 mb-lg-0">
+            <div class="card" style="background-color: rgb(54, 57, 59)">
+              <div class="card-body py-5 px-md-5">
+                <form action="{% url 'login' %}" method="post" >
+
+
+                    {% csrf_token %}
+                   
+  
+                
+                  <div data-mdb-input-init class="form-outline mb-4">
+                    <label class="form-label" for="username" style="color: aliceblue;">Username</label>
+                    <input type="text" id="username" class="form-control" name="username"/>
+                    
+                  </div>
+
+                  
+                
+  
+               
+                  <div data-mdb-input-init class="form-outline mb-4">
+                    <label class="form-label" for="password" style="color: aliceblue;">Password</label>
+                    <input type="password" id="password" class="form-control" name="password"/>
+                    
+                  </div>
+
+                  
+                  <br>
+  
+                   
+  
+           
+                  <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary btn-block mb-3">
+                    login
+                  </button>
+  
+                
+                  
+  
+                    
+                    </button>
+                    <p><a href="{% url 'forgot_password' %}">Forgot Password?</a></p>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+     
+  </section>
+   
+
+{% endblock %}

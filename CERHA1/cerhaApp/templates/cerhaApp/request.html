@@ -1,0 +1,160 @@
+{% extends "cerhaApp/layout.html" %}
+
+{% block body %}
+
+    <br>
+
+     
+
+    {% if message %}
+        <div class="alert alert-warning">
+            {{ message }}
+        </div>
+    {% endif %}
+
+
+
+     
+
+
+
+    {% if currentuser.isStudent %}
+      
+            {% if req.isAccepted %}
+            <div class="card" style="background-color: hsl(228, 10%, 30%)">
+              <div class="card-header"  >
+                <h3 style="color: aliceblue;"> <span class="text-success">Confirmed for {{ req.student.location }}</span></h3>
+                  
+              </div>
+              <div class="card-body">
+                <blockquote class="blockquote mb-0" id="arrivalText">
+                    <p style="color: aliceblue;">Arriving in <span id="timeTaken" class="text-warning">--</span> minutes</p>
+                    <p style="color: aliceblue;">Driver Contact Number: {{ req.driver.phn }} </p>
+                    <footer class="blockquote-footer" style="color: aliceblue;">Requested at <cite title="Source Title">{{ req.time }}</cite></footer>
+                </blockquote>
+            </div>
+          </div>
+          
+
+
+
+          <script>
+            
+            document.addEventListener('DOMContentLoaded', function () {
+                 
+                const totalTime = {{ req.time_taken }}; 
+        
+                 
+                let storedRequestTime = localStorage.getItem('requestTime');
+                if (!storedRequestTime) {
+                    storedRequestTime = new Date().getTime();  
+                    localStorage.setItem('requestTime', storedRequestTime);  
+                } else {
+                    storedRequestTime = parseInt(storedRequestTime);  
+                }
+        
+                 
+                function getRemainingTime() {
+                    const now = new Date().getTime();  
+                    const elapsed = (now - storedRequestTime) / (1000 * 60);  
+                    return Math.max(totalTime - elapsed, 0);  
+                }
+        
+                 
+                function updateTime() {
+                    const timeRemaining = getRemainingTime(); 
+        
+                    if (timeRemaining > 0) {
+                        document.getElementById('timeTaken').innerText = timeRemaining.toFixed(1);  
+                    } else {
+                        document.getElementById('arrivalText').innerHTML = "Arrived";  
+                        clearInterval(timerInterval);  
+                        localStorage.removeItem('requestTime'); 
+                        window.location.href = "{% url 'delete' req.id %}";
+                    }
+                }
+        
+                 
+                const timerInterval = setInterval(updateTime, 6000);
+        
+                 
+                updateTime();
+            });
+        </script>
+        
+
+        
+            {% else %}
+              <div class="card" style="background-color: hsl(228, 10%, 30%)">
+                <div class="card-header">
+                  <h3 style="color: aliceblue;"> <span class="text-danger">Pending... </span></h3>
+                </div>
+                <div class="card-body">
+                  <blockquote class="blockquote mb-0">
+                    <p style="color: aliceblue;">Pick-Up: {{req.student.location}}</p>
+                    <a href="{% url 'delete' req.id %}" class="btn btn-danger">Cancel</a>
+                    <footer class="blockquote-footer" style="color: aliceblue;">Requested at <cite title="Source Title">{{req.time}}</cite></footer>
+                  </blockquote>
+        
+                </div>
+              </div>
+            {% endif %} 
+        
+    
+    {%endif%}
+
+
+
+
+    {% if currentuser.isDriver %}
+
+
+      {% for all in req %}
+              
+            
+        {% if not all.isAccepted %}
+
+          <div class="card" style="background-color: hsl(228, 10%, 30%)">
+            <div class="card-header"  >
+              <h3 style="color: aliceblue;">Requested at  <span  class="text-warning">{{all.time}}</span></h3>
+              
+            </div>
+            <div class="card-body">
+              <blockquote class="blockquote mb-0">
+                <p style="color: aliceblue;">Location: {{all.student.location}}</p>
+                <a href="{% url 'ongoing' all.id %}" class="btn btn-primary">Accept</a>
+              </blockquote>
+            </div>
+          </div>
+          <br>
+        {% endif %}
+
+
+      {% endfor %}
+      
+
+
+    {% endif %}
+
+     
+
+
+    
+{% endblock %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 

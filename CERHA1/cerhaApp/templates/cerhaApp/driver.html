@@ -1,0 +1,50 @@
+{% extends "cerhaApp/layout.html" %}
+
+{% block body %}
+
+    <form action="{% url 'driver'%}" method="POST">
+        {% csrf_token %}
+
+
+
+        <div class="jumbotron" style="background-color: hsl(228, 10%, 30%)">
+            <h1 class="display-4" style="color: aliceblue;"> <span class="text-primary">Hello, </span>{{currentuser.username}}</h1>
+            <hr class="my-4">
+
+
+
+            <div class="form-group">
+                <label for="vehicleNo" style="color: aliceblue;">Vehicle Number</label>
+                <input type="text" class="form-control" id="vehicleNo" name="vehicleNo" required>
+            </div>
+            <div class="form-group">
+                <label for="phn" style="color: aliceblue;">Phone Number</label>
+                <input type="tel" class="form-control" id="phn" name="phn" required>
+            </div>
+            <div class="form-outline" data-mdb-input-init>
+                <label class="form-label" for="location" style="color: aliceblue;">Location</label>
+                <select class="form-control" id="location" name="location" >
+                    {% for all in locations %}
+                        <option value="{{all.id}}">{{all}}</option>
+                        
+                    {% endfor %}
+                        
+                         
+                </select>
+                <br>
+                    
+            
+                <input class="btn btn-primary" type="submit" value="See Requests">
+            </div>
+
+        </div>
+
+
+
+
+
+        
+    </form>
+
+{% endblock %}
+
